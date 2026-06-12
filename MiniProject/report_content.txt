@@ -1,0 +1,75 @@
+# Wine Quality Prediction - Mini Project Report
+
+## 1. Problem Definition
+
+The objective of this project is to predict the quality of red wine based on its chemical properties. Wine quality is typically assessed by human experts through tasting, which is subjective, time-consuming, and expensive. By building a machine learning model that can estimate wine quality from measurable chemical attributes (such as acidity, sugar, pH, alcohol content, etc.), we can provide a consistent, automated, and objective evaluation of wine quality. This can help winemakers monitor and improve production quality without relying solely on human tasters.
+
+## 2. Dataset Description
+
+The dataset used is the Wine Quality dataset (red wine variant) from the UCI Machine Learning Repository. It contains 1,599 samples of red wine, each described by 11 chemical input features and one target variable:
+
+**Features (input variables):**
+- fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, alcohol
+
+**Target variable:**
+- quality (integer score from 0 to 10, based on sensory evaluation)
+
+After removing 240 duplicate records, 1,359 samples remained for modeling. The dataset has no missing values. All features are numeric (float), so no categorical encoding was required.
+
+## 3. Data Preprocessing
+
+- **Missing values**: Checked — none found in any column.
+- **Duplicate records**: 240 duplicates detected and removed, leaving 1,359 unique samples.
+- **Categorical encoding**: Not required — all features are numeric.
+- **Feature scaling**: Applied StandardScaler to standardize features (mean=0, std=1) to ensure fair contribution from all variables.
+- **Train-test split**: 80% training (1,087 samples), 20% testing (272 samples).
+
+## 4. Model Building
+
+**Model chosen: Random Forest Regressor**
+
+Random Forest was selected because:
+- It handles non-linear relationships well (wine quality depends on complex interactions between chemicals)
+- It provides feature importance rankings for interpretability
+- It is robust to outliers and overfitting due to its ensemble nature
+- The user has prior experience with this model from previous assignments
+
+**Configuration:** 100 decision trees (n_estimators=100), random_state=42 for reproducibility.
+
+## 5. Model Evaluation
+
+**Results on test set (272 samples):**
+- Mean Squared Error (MSE): 0.384
+- R-squared (R²): 0.458
+
+**Interpretation:** The model explains approximately 46% of the variance in wine quality scores. An R² of 0.458 indicates moderate predictive power — the chemical features can meaningfully predict quality, but there is still room for improvement. This is expected because wine quality is also influenced by factors beyond the 11 chemical measurements in this dataset (e.g., grape variety, aging process, storage conditions).
+
+**Feature Importance (top predictors):**
+1. Alcohol (28.1%) — most influential
+2. Sulphates (13.4%)
+3. Volatile Acidity (11.4%)
+
+## 6. Conclusion
+
+**Summary:** A Random Forest Regressor was successfully built to predict red wine quality from 11 chemical features. The model achieved an R² of 0.458, showing that chemical composition can explain a significant portion of wine quality.
+
+**Limitations:**
+- The model only uses chemical attributes; sensory factors (taste, aroma) are not captured
+- Quality scores are subjective human ratings, introducing noise in the target variable
+- The dataset is limited to red wine — results may not generalize to white wine
+
+**Future improvements:**
+- Try other models (Gradient Boosting, Neural Networks) for potentially better accuracy
+- Include additional features such as grape type, region, and aging time
+- Treat quality as a classification problem (e.g., low/medium/high) instead of regression
+- Perform hyperparameter tuning to optimize model performance
+
+## 7. Reflection
+
+This project helped me understand the complete machine learning workflow — from data collection and preprocessing to model building, evaluation, and interpretation. One challenge was that the initial model without scaling performed similarly to the scaled version, showing that Random Forest is not highly sensitive to feature scale, but scaling is still good practice for consistency.
+
+I also learned the importance of data quality: the dataset had 240 duplicate rows (15% of the data), which could have biased the model if not removed. Checking for missing values and duplicates should always be the first step.
+
+The concept of R² was clearer to me after this project — seeing that 46% of quality variance is explained by chemistry alone was a meaningful result. It showed that machine learning can extract useful patterns even from imperfect data.
+
+Overall, this project reinforced that the ML pipeline is not just about training a model. Understanding the problem, cleaning the data, and interpreting results are equally important steps in any real-world application.
